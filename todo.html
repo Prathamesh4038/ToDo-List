@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App - Easy Tutorials</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<style>
+    body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    background: linear-gradient(#27ff17, #5d9aa0, #41ff00);
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(#27ff17, #5d9aa0, #41ff00);
+    padding: 10px;
+}
+
+.todo {
+    width: 100%;
+    max-width: 540px;
+    background: linear-gradient(#e917ff, #a05d90, #00d4ff);
+    margin: 100px auto 20px;
+    padding: 40px 30px 70px;
+    border-radius: 10px;
+}
+
+h1 {
+    color: #090a0c;
+    display: flex;
+    align-items: center;
+}
+
+h1 img {
+    width: 100px;
+    height: 70px;
+    margin-left: 10px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff; 
+    border-radius: 30px;
+    padding-left: 20px;
+    margin-bottom: 25px;
+}
+
+input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 30px 0 0 30px;
+    outline: none;
+    color: black;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0 30px 30px 0;
+    background-color: #43b2b6;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: larger;
+}
+
+button:hover {
+    background-color: rgb(250, 187, 69);
+}
+
+.task {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-content {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.task-checkbox {
+    display: none;
+}
+
+.task-checkbox + label {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.1s ease;
+}
+
+.task-checkbox + label::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #43b2b6;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 3px;
+    transition: transform 0.3s ease;
+}
+
+.task-checkbox:checked + label::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.remove-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover {
+    background-color: #ff1a1a;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: black;
+}
+
+</style>
+
+<script>document.addEventListener('DOMContentLoaded', () => {
+    const inputBox = document.getElementById('input-box');
+    const addButton = document.querySelector('button');
+    const taskList = document.querySelector('.task-list');
+
+    function createTask(taskText) {
+        const task = document.createElement('div');
+        task.className = 'task';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'task-checkbox';
+        checkbox.id = `checkbox-${Date.now()}`;
+
+        const label = document.createElement('label');
+        label.setAttribute('for', checkbox.id);
+
+        const taskContent = document.createElement('span');
+        taskContent.textContent = taskText;
+        taskContent.className = 'task-content';
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.className = 'remove-btn';
+
+        task.appendChild(checkbox);
+        task.appendChild(label);
+        task.appendChild(taskContent);
+        task.appendChild(removeButton);
+
+        taskList.appendChild(task);
+
+        // Add event listeners
+        checkbox.addEventListener('change', () => {
+            taskContent.classList.toggle('completed', checkbox.checked);
+        });
+
+        removeButton.addEventListener('click', () => {
+            task.remove();
+        });
+    }
+
+    addButton.addEventListener('click', () => {
+        if (inputBox.value.trim() !== '') {
+            createTask(inputBox.value);
+            inputBox.value = '';
+        }
+    });
+
+    inputBox.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter' && inputBox.value.trim() !== '') {
+            createTask(inputBox.value);
+            inputBox.value = '';
+        }
+    });
+});
+</script>
+
+<body>
+    <div class="container">
+        <div class="todo">
+            <h1>Todo List <span>___</span><img src="notepad.png" width="100" height="70"></h1>
+            <div class="row">
+                <input type="text" id="input-box" placeholder="Add Your Text">
+                <button>Add</button>
+            </div>
+            <div class="task-list">
+                
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
